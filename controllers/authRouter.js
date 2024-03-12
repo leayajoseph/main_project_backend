@@ -51,4 +51,11 @@ router.post("/login",async(req,res)=>{
         status:"success","userdata":data
     })
 })
+
+//view user
+
+router.get("/viewuser",async(req,res)=>{
+    let result=await authModel.find()
+    res.json(result)
+})
 module.exports=router
