@@ -1,18 +1,31 @@
+const authModel = require("../models/authModel");
 const otpService=require("../services/otp.service");
 
-exports.otpReset=(req,res,next)=>{
-    otpService.sendOTP(req.body,(error,results)=>{
-        if(error){
-            return res.status(400).send({
-                message: "error",
-                data: error,
+exports.otpReset=async (req,res,next)=>{
+    const{email}=req.body
+    let data=await authModel.findOne({"email":email})
+    if(!data)
+    {
+        return res.status(404).send({
+            message:"Email not registered",
+            
+        })
+    }
+
+    else{
+        otpService.sendOTP(req.body,(error,results)=>{
+            if(error){
+                return res.status(400).send({
+                    message: "error",
+                    data: error,
+                });
+            }
+            return res.status(200).send({
+                message: "Success",
+                data: results,
             });
-        }
-        return res.status(200).send({
-            message: "Success",
-            data: results,
         });
-    });
+    }
 };
 
 exports.verifyOTP=(req,res,next)=>{
