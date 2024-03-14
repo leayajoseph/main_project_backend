@@ -2,6 +2,7 @@ const express=require("express")
 
 const router=express.Router()
 
+const otpController=require("../controllers/otp.controller")
 const authModel=require("../models/authModel")
 const bcrypt=require("bcryptjs")
 
@@ -58,4 +59,21 @@ router.get("/viewuser",async(req,res)=>{
     let result=await authModel.find()
     res.json(result)
 })
+
+//reset password
+
+router.post("/otp-reset-password",otpController.otpReset);
+router.post("/otp-verify",otpController.verifyOTP);
+
+router.post("/change_password",async(req,res)=>{
+    const {email,password}=req.body;
+    await authModel.updateOne(
+        {"email":email},
+        {$set:{"password":password}}
+    );
+    return res.json({message:"Success"});
+
+
+});
+
 module.exports=router

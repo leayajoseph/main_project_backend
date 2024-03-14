@@ -6,6 +6,7 @@ const app=express()
 
 const authRoute=require("./controllers/authRouter")
 
+
 app.use(express.json())
 app.use(cors())
 
