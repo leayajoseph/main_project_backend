@@ -67,9 +67,10 @@ router.post("/otp-verify",otpController.verifyOTP);
 
 router.post("/change_password",async(req,res)=>{
     const {email,password}=req.body;
+    const hashPassword=await hashPasswordGenerator(password)
     await authModel.updateOne(
         {"email":email},
-        {$set:{"password":password}}
+        {$set:{"password":hashPassword}}
     );
     return res.json({message:"Success"});
 
