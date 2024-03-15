@@ -5,6 +5,7 @@ const mongoose=require("mongoose")
 const app=express()
 
 const authRoute=require("./controllers/authRouter")
+const vendorRoute=require("./controllers/vendorRouter")
 
 
 app.use(express.json())
@@ -15,6 +16,7 @@ useNewUrlParser: true
 })
 
 app.use("/api/auth",authRoute)
+app.use("/api/vendor",vendorRoute)
 
 app.listen(3001,()=>{
     console.log("server running")
