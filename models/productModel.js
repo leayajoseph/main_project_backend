@@ -1,0 +1,47 @@
+const mongoose=require('mongoose');
+const ProductSchema=mongoose.Schema({
+    product_name:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:String,
+        required:true
+    },
+    discount:{
+        type:String,
+        required:true
+    },
+    discount_price:{
+        type:String,
+        required:true
+    },
+    short_desc:{
+        type:String,
+        required:true
+    },
+    long_desc:{
+        type:String,
+        required:true
+    },
+    vendor_id:{
+        type:mongoose.Schema.Types.ObjectId,
+            required:true,
+            ref:"vendor"
+    },
+    category_id:{
+        type:mongoose.Schema.Types.ObjectId,
+            required:true,
+            ref:"category"
+    },
+    video_link:{
+        type:String,
+        required:true
+    },
+    product_img:{
+        type:String,
+        required:true
+    }
+    
+})
+module.exports=mongoose.model('product',ProductSchema)
