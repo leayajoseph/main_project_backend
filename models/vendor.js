@@ -13,12 +13,12 @@ const VendorSchema=mongoose.Schema({
         required:true
     },
     logo:{
-        data:Buffer,
-        contentType:String
+        type:String,
+        required:true
     },
     fssai:{
-        data:Buffer,
-        contentType:String
+        type:String,
+        required:true
     }
 })
 module.exports=mongoose.model('vendor',VendorSchema)

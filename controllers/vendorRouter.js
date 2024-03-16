@@ -2,6 +2,7 @@ const express=require("express")
 
 const router=express.Router()
 const vendorModel=require("../models/vendor")
+const categoryModel=require("../models/categoryModel")
 const upload=require("../upload")
 
 router.post('/upload', upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'fssai', maxCount: 1 }]), 
@@ -10,14 +11,8 @@ router.post('/upload', upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'fs
       company_name: req.body.company_name,
       email: req.body.email,
       address: req.body.address,
-      logo: {
-        data: req.files['logo'][0].filename,
-        contentType: 'image/png'
-      },
-      fssai: {
-        data: req.files['fssai'][0].filename,
-        contentType: 'application/pdf'
-      }
+      logo: req.files['logo'][0].path,
+      fssai: req.files['fssai'][0].path
     });
   
     newdata.save()
@@ -28,6 +23,7 @@ router.post('/upload', upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'fs
   router.get("/viewVendor",async(req,res)=>{
     let result=await vendorModel.find()
     res.json(result)
-})
+});
+
 
   module.exports=router
