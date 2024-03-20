@@ -32,6 +32,11 @@ router.post('/category_upload',(req,res)=>{
       .catch(err => console.log(err));
         }
     })
+});
+router.get("/viewcategory",async(req,res)=>{
+    let result=await categoryModel.find()
+    res.json(result)
 })
+
 
 module.exports=router

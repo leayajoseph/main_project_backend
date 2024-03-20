@@ -21,6 +21,7 @@ app.use("/api/auth",authRoute)
 app.use("/api/vendor",vendorRoute)
 app.use("/api/category",categoryRoute)
 app.use("/api/product",productRoute)
+app.use('/uploads',express.static('uploads'))
 
 app.listen(3001,()=>{
     console.log("server running")

@@ -52,6 +52,12 @@ router.post('/product_upload',(req,res)=>{
         }
     })
 });
+
+router.get("/viewproduct",async(req,res)=>{
+    let result=await productModel.find()
+    res.json(result)
+});
+
 function calculateDiscountPrice(price, discount) {
     const discountedAmount = (parseInt(price) * (parseInt(discount) / 100));
     return (parseInt(price) - discountedAmount).toString();
