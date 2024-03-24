@@ -1,5 +1,4 @@
 const express=require("express")
-
 const router=express.Router()
 const vendorModel=require("../models/vendor")
 const categoryModel=require("../models/categoryModel")
