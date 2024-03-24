@@ -8,6 +8,7 @@ const authRoute=require("./controllers/authRouter")
 const vendorRoute=require("./controllers/vendorRouter")
 const categoryRoute=require("./controllers/categoryRouter")
 const productRoute=require("./controllers/productRouter")
+const userRoute=require("./controllers/userRouter")
 
 
 app.use(express.json())
@@ -21,6 +22,7 @@ app.use("/api/auth",authRoute)
 app.use("/api/vendor",vendorRoute)
 app.use("/api/category",categoryRoute)
 app.use("/api/product",productRoute)
+app.use("/api/user",userRoute)
 app.use('/uploads',express.static('uploads'))
 
 app.listen(3001,()=>{

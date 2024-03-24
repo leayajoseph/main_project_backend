@@ -4,6 +4,7 @@ const router=express.Router()
 const productModel=require("../models/productModel")
 
 const multer=require('multer')
+const { ObjectId } = require("bson")
 
 const Storage=multer.diskStorage({
     destination: 'uploads',
@@ -58,9 +59,78 @@ router.get("/viewproduct",async(req,res)=>{
     res.json(result)
 });
 
+router.get('/product_category', async(req,res)=>{
+    let category_id=req.query.category_id
+    let data=await productModel.find({"category_id":category_id});
+    if(!data)
+    {
+        return res.json({
+            status: "No products"
+        })
+    }
+    res.json(data)
+});
 function calculateDiscountPrice(price, discount) {
     const discountedAmount = (parseInt(price) * (parseInt(discount) / 100));
     return (parseInt(price) - discountedAmount).toString();
 }
+
+router.put('/update_product', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Error uploading files' });
+        }
+
+        // Extract product ID from request query
+        const productId = req.query.id;
+
+        // Extract other product details from request body
+        const {
+            product_name,
+            price,
+            discount,
+            discount_price,
+            short_desc,
+            long_desc,
+            vendor_id,
+            category_id,
+            video_link
+        } = req.body;
+
+        let product_img = '';
+
+        if (req.files) {
+            req.files.forEach((file) => {
+                product_img += file.path + ',';
+            });
+            product_img = product_img.slice(0, -1); // Remove the last comma
+        }
+
+        // Update the product in the database
+        productModel.findByIdAndUpdate(productId, {
+            product_name,
+            price,
+            discount,
+            discount_price,
+            short_desc,
+            long_desc,
+            vendor_id,
+            category_id,
+            video_link,
+            product_img
+        }, { new: true })
+        .then((updatedProduct) => {
+            if (!updatedProduct) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            res.status(200).json(updatedProduct);
+        })
+        .catch((error) => {
+            console.error('Error updating product:', error.message);
+            res.status(500).json({ message: 'Internal server error' });
+        });
+    });
+});
 
 module.exports=router
